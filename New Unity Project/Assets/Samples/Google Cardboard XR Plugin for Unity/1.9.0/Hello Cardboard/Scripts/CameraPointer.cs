@@ -35,19 +35,24 @@ public class CameraPointer : MonoBehaviour
         // Casts ray towards camera's forward direction, to detect if a GameObject is being gazed
         // at.
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, _maxDistance))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, _maxDistance, 1 << 3))
         {
             // GameObject detected in front of the camera.
             if (_gazedAtObject != hit.transform.gameObject)
             {
                 // New GameObject.
-                _gazedAtObject?.SendMessage("OnPointerExit");
+                //_gazedAtObject?.SendMessage("OnPointerExit");
                 _gazedAtObject = hit.transform.gameObject;
                 _gazedAtObject.SendMessage("OnPointerEnter");
             }
         }
         else
         {
+            //如果物件不在攝影機前就跳出
+            if(hit.collider == null)
+            {
+                return;
+            }
             // No GameObject detected in front of the camera.
             _gazedAtObject?.SendMessage("OnPointerExit");
             _gazedAtObject = null;
