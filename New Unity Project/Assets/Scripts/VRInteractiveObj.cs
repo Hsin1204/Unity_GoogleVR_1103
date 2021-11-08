@@ -25,7 +25,6 @@ public class VRInteractiveObj : MonoBehaviour
     ///</summary>
     public void OnPointerEnter()
     {
-        
         onEnter.Invoke();
     }
     /// <summary>
